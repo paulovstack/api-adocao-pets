@@ -92,10 +92,9 @@ def registrar_adocao(dados: Adocao):
     animal_encontrado = next((a for a in anim if a["id"] == dados.animal_id), None)
     adotante_encontrado = next((ad for ad in adot if ad ["id"] == dados.adotante_id), None)
 
-    if not animal_encontrado:
-       raise HTTPException(status_code=404, detail="Animal não cadastrado.")
-    if not adotante_encontrado:
-        raise HTTPException(status_code=404, detail="Adotante não cadastrado.")
+    if not animal_encontrado or not adotante_encontrado:
+        print("Adoção não pode ser realizada")
+        raise HTTPException(status_code=404, detail="Animal ou Adotante não cadastrado.")
 
     animal_encontrado["status_ad"] = listar_status()[1]
     horario_atual = datetime.now().strftime("%y-%m-%d %H:%M:%S")
